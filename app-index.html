@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="description" content="Engage Digital Demo App" />
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta id="theme-color" name="theme-color" content="#ffffff" />
+
+  <base target="_blank" />
+
+  <title>IoTOC</title>
+
+  <link rel="stylesheet" href="app-css.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+    <!-- Logo y titulo -->
+    <div class="row " style="background-color: rgb(209, 224, 200);">
+      <div class="col-12 p-2 titulo">
+        <div class="imagen">
+          <img src="img/logo.png" alt="" class="logo">
+        </div>
+      </div>
+      <div class="col-12 titulo2">
+        <h1>Turn off Obsession</h1>
+      </div>
+    </div>
+
+    <!-- Botones para sensores -->
+    <div class="row">
+      <div class="col-12 titleSensores">
+        <h2>Sensors</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Kitchen electricity</h5>
+            <p class="card-text">Manage kitchen electricity.</p>
+            <button href="#" id="gas" class="btn btn-primary">Off</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Passage of gases</h5>
+            <p class="card-text">Gas system management.</p>
+            <button href="#" id="regadera" class="btn btn-primary">Off</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Water passage</h5>
+            <p class="card-text">Aqueduct management.</p>
+            <button href="#" id="luz" class="btn btn-primary">Off</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Home appliances</h5>
+            <p class="card-text">appliance connection.</p>
+            <button id="electrodomestico" href="#" class="btn btn-primary">Off</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-12 d-flex flex-row align-items-stretch" style="padding: 20px 30px 20px 20px;">
+
+        <div class="col-3 remoteAudio" style="display: inline-block; margin: 0 0;">
+          <div class="logoIcon">
+            <img id="initial" class="logo" style="visibility:hidden;display:none; justify-content: center; padding: 0 50px;"
+              src="mobile-phone.png" alt="Call Logo" width="20" height="50">
+            <img id="Ringing" style="visibility:hidden;display:none;" src="call.png" alt="CalLRinging" width="50"
+              height="50">
+            <img id="Connected" style="visibility:hidden;display:none; stroke-opacity: 1;" src="phone-call.png" alt="CallConnected"
+              width="100" height="50">
+          </div>
+          <audio id="engage-digital-remote-audio" autoplay controls></audio>
+        </div>
+
+        <div class="col-9 justify-content-start align-items-center "
+          style="text-align: left;background-color: rgb(209, 224, 200);">
+          <div class="row d-flex justify-content-start align-items-center">
+            <div class="col-6">
+              <p>
+              <div style="color: #171618;"><strong>Click-to-Call</strong></div>
+              </p>
+            </div>
+            <div class="col-6" style="background-color: rgb(209, 224, 200);">
+              <div class=" callButton">
+                <button id="engage-digital-click-to-call-btn"></button>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="alert" id='engage-digital-alert'></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="engage-digital-click-to-call-config.js"></script>
+  <script src="engage-digital-click-to-call.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <!-- inicializando firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script></script>
+  <script type="module">
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBtQ2rjQQmgR5wmdy9rimEiSCI9nCl39ac",
+      authDomain: "iotoc-d40b5.firebaseapp.com",
+      databaseURL: "https://iotoc-d40b5-default-rtdb.firebaseio.com",
+      projectId: "iotoc-d40b5",
+      storageBucket: "iotoc-d40b5.appspot.com",
+      messagingSenderId: "248030745131",
+      appId: "1:248030745131:web:c325a8a4ccef10cedf906e",
+      measurementId: "G-R90SM66PFY"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+
+    var gas = document.getElementById('gas');
+    var electro = document.getElementById('electrodomestico');
+    var luz = document.getElementById('luz');
+    var regadera = document.getElementById('regadera');
+    var dbRef = firebase.database().ref();
+
+    //leer base de datos
+    //Electro
+    dbRef.child('IOTOC/Ventanas').on('value', snap => {
+      if (snap.val() == 0) {
+        electro.innerText = 'on';
+        electro.style.cssText = 'background-color:green'
+      } else {
+        electro.innerText = 'off';
+        electro.style.cssText = 'background-color:red'
+      }
+    });
+    //Luces
+    dbRef.child('IOTOC/Luces').on('value', snap => {
+      if (snap.val() == 0) {
+        luz.innerText = 'on';
+        luz.style.cssText = 'background-color:green'
+      } else {
+        luz.innerText = 'off';
+        luz.style.cssText = 'background-color:red'
+      }
+    });
+    //gas
+    dbRef.child('IOTOC/LlaveGas').on('value', snap => {
+      if (snap.val() == 0) {
+        gas.innerText = 'on';
+        gas.style.cssText = 'background-color:green'
+      } else {
+        gas.innerText = 'off';
+        gas.style.cssText = 'background-color:red'
+      }
+    });
+
+    //regadera
+    dbRef.child('IOTOC/ComidaMascota').on('value', snap => {
+      if (snap.val() == 0) {
+        regadera.innerText = 'on';
+        regadera.style.cssText = 'background-color:green'
+      } else {
+        regadera.innerText = 'off';
+        regadera.style.cssText = 'background-color:red'
+      }
+    });
+
+    //escribir base de datos
+    //luz
+    document.getElementById('luz').addEventListener('click', () => {
+      if (luz.textContent == 'off') {
+        dbRef.child('IOTOC/Luces').set(0);
+      } else {
+        dbRef.child('IOTOC/Luces').set(1);
+      }
+    })
+
+    //gas
+    document.getElementById('gas').addEventListener('click', () => {
+      if (gas.textContent == 'off') {
+        dbRef.child('IOTOC/LlaveGas').set(0);
+      } else {
+        dbRef.child('IOTOC/LlaveGas').set(1);
+      }
+    })
+
+    //regadera
+    document.getElementById('regadera').addEventListener('click', () => {
+      if (gas.textContent == 'off') {
+        dbRef.child('IOTOC/ComidaMascota').set(0);
+      } else {
+        dbRef.child('IOTOC/ComidaMascota').set(1);
+      }
+    })
+
+    //electro
+    document.getElementById('electrodomestico').addEventListener('click', () => {
+      if (electro.textContent == 'off') {
+        dbRef.child('IOTOC/Ventanas').set(0);
+      } else {
+        dbRef.child('IOTOC/Ventanas').set(1);
+      }
+    })
+
+  </script>
+
+</body>
+
+</html>
